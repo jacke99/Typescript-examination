@@ -1,18 +1,20 @@
-import { log } from "console";
 import React, { useState } from "react";
-
-interface LoginInterface {
-  username: string;
-  password: string;
-}
+import fetchOptions from "../service/fetchService";
+import { Link, useNavigate } from "react-router-dom";
+import { LoginInterface, UserInterface } from "../types/userInterface";
 
 const defaultLoginValues: LoginInterface = {
   username: "",
   password: "",
 };
 
-export default function LoginPage() {
+type UserProps = {
+  setCurrentUser: React.Dispatch<React.SetStateAction<UserInterface>>;
+};
+
+export default function LoginPage({ setCurrentUser }: UserProps) {
   const [inputValue, setInputValues] = useState(defaultLoginValues);
+  const navigate = useNavigate();
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
@@ -26,18 +28,15 @@ export default function LoginPage() {
 
   async function handleLoginClick() {
     const body = inputValue;
-    const fetchOption = {
-      method: "PUT",
-      body: JSON.stringify(body),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
 
-    const res = await fetch("/api/login", fetchOption);
+    const res = await fetch(
+      "/api/login",
+      fetchOptions<LoginInterface>("PUT", body)
+    );
     if (res.status !== 400) {
       const data = await res.json();
-      console.log(data);
+      setCurrentUser(data.user);
+      navigate("/home");
     } else {
       alert("Wrong username or password");
     }
@@ -46,7 +45,7 @@ export default function LoginPage() {
     <div className="login-wrapper">
       <h1 className="login-title">Strong n' Epic</h1>
       <div className="login-container">
-        <label htmlFor="username-field">Användarnamn</label>
+        <label htmlFor="username-field">Username</label>
         <input
           name="username"
           value={inputValue.username}
@@ -54,7 +53,7 @@ export default function LoginPage() {
           className="username-field"
           onChange={handleChange}
         />
-        <label htmlFor="password-field">Lösenord</label>
+        <label htmlFor="password-field">Password</label>
         <input
           name="password"
           value={inputValue.password}
@@ -63,9 +62,12 @@ export default function LoginPage() {
           onChange={handleChange}
         />
         <button className="login-btn" onClick={handleLoginClick} type="submit">
-          Logga in
+          Log in
         </button>
       </div>
+      <p className="link">
+        Don't already have an account? Sign up <Link to="/register">here</Link>.
+      </p>
     </div>
   );
 }

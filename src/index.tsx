@@ -4,15 +4,40 @@ import "./index.css";
 import App from "./App";
 import { Server, Response } from "miragejs";
 import { nanoid } from "nanoid";
+import { UserInterface, WorkoutInterface } from "./types/userInterface";
 
-let userArray = [
-  { id: nanoid(), name: "Luke", password: "123", booked_workouts: [] },
-  { id: nanoid(), name: "Leia", password: "123", booked_workouts: [] },
-  { id: nanoid(), name: "Anakin", password: "123", booked_workouts: [] },
-  { id: nanoid(), name: "Rey", password: "123", booked_workouts: [] },
+const userArray: UserInterface[] = [
+  {
+    id: nanoid(),
+    name: "Luke",
+    password: "123",
+    role: "ADMIN",
+    booked_workouts: [],
+  },
+  {
+    id: nanoid(),
+    name: "Leia",
+    password: "123",
+    role: "USER",
+    booked_workouts: [],
+  },
+  {
+    id: nanoid(),
+    name: "Anakin",
+    password: "123",
+    role: "USER",
+    booked_workouts: [],
+  },
+  {
+    id: nanoid(),
+    name: "Rey",
+    password: "123",
+    role: "USER",
+    booked_workouts: [],
+  },
 ];
 
-const workoutArray = [
+const workoutArray: WorkoutInterface[] = [
   {
     id: nanoid(),
     title: "Crossfit",
@@ -74,7 +99,24 @@ new Server({
         (user) => user.name === body.username && user.password === body.password
       );
       if (user) {
-        return { users: user };
+        return { user: user };
+      } else {
+        return new Response(400);
+      }
+    });
+
+    this.post("/users/booking", (schema, request) => {
+      let body = JSON.parse(request.requestBody);
+      const workout = workoutArray.find(
+        (workout) => workout.id === body.workoutId
+      );
+      console.log(workout);
+      if (workout) {
+        const userIndex = userArray.findIndex(
+          (user) => user.id === body.userId
+        );
+        userArray[userIndex].booked_workouts.push(workout);
+        return { user: userArray[userIndex] };
       } else {
         return new Response(400);
       }
