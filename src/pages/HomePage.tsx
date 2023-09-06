@@ -1,8 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { WorkoutInterface } from "../types/userInterface";
+import { UserInterface, WorkoutInterface } from "../types/userInterface";
 import WorkoutElements from "../components/WorkoutElements";
+import BookedElements from "../components/BookedElements";
+import Header from "../components/Header";
+import { Link } from "react-router-dom";
 
-export default function HomePage() {
+type currentUserProps = {
+  currentUser: UserInterface;
+  setCurrentUser: React.Dispatch<React.SetStateAction<UserInterface>>;
+};
+
+export default function HomePage({
+  currentUser,
+  setCurrentUser,
+}: currentUserProps) {
   const defaultWorkout: WorkoutInterface[] = [
     {
       id: "",
@@ -13,7 +24,9 @@ export default function HomePage() {
       duration: 0,
     },
   ];
+
   const [workouts, setWorkouts] = useState(defaultWorkout);
+  const [toggle, setToggle] = useState(false);
   useEffect(() => {
     fetch("/api/workouts")
       .then((res) => res.json())
@@ -21,12 +34,39 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="home-wrapper">
+    <div className={!toggle ? "home-wrapper" : "home-wrapper booked"}>
+      <Header username={currentUser.name} />
+      {currentUser.role === "ADMIN" && (
+        <Link className="admin-link" to="/admin">
+          Admin page &#8594;
+        </Link>
+      )}
       <nav className="workout-nav">
-        <button className="nav-btn">Book workout</button>
-        <button className="nav-btn">Your Workouts</button>
+        <button
+          onClick={() => setToggle(false)}
+          className={!toggle ? "active nav-btn" : "nav-btn"}
+        >
+          Book workout
+        </button>
+        <button
+          onClick={() => setToggle(true)}
+          className={toggle ? "active nav-btn" : "nav-btn"}
+        >
+          Your Workouts
+        </button>
       </nav>
-      <WorkoutElements workouts={workouts} />
+      {toggle ? (
+        <BookedElements
+          currentUser={currentUser}
+          setCurrentUser={setCurrentUser}
+        />
+      ) : (
+        <WorkoutElements
+          workouts={workouts}
+          currentUser={currentUser}
+          setCurrentUser={setCurrentUser}
+        />
+      )}
     </div>
   );
 }

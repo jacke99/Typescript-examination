@@ -37,6 +37,9 @@ body {
   box-shadow: 0 2px 5px black;
   padding: 0.2em 0.5em;
 }
+label {
+  text-shadow: 0 2px 5px black;
+}
 
 .login-container > label {
   margin-bottom: 0.2rem;
@@ -60,11 +63,12 @@ body {
   left: 0;
   right: 0;
   margin: 0 auto;
-  box-shadow: 0 2px 5px black;
+  text-shadow: 0 2px 5px black;
 }
 
 .home-wrapper {
-  background: url("./assets/homeBackground.jpg") no-repeat center center/ cover;
+  background: url("./assets/homePageWorkouts.jpg") no-repeat center center/
+    cover;
   min-height: 100vh;
   color: #fff;
   background-attachment: scroll;
@@ -72,10 +76,15 @@ body {
   padding-bottom: 4rem;
 }
 
+.booked {
+  background: url("./assets/homePageBooked.jpg") no-repeat center center/ cover;
+}
+
 .card {
   display: flex;
   flex-direction: column;
   background-color: #545f719c;
+  position: relative;
   width: 85%;
   margin: 0 auto;
   margin-bottom: 1.5rem;
@@ -84,12 +93,16 @@ body {
   border-radius: 1rem;
 }
 
-.card > button {
-  padding: 0.2rem 0.4rem;
-  width: 10rem;
+.workout-btn,
+.booked-btn,
+.delete-btn {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  padding: 0.2rem 0.5rem;
+  width: 8rem;
   border: none;
   border-radius: 5rem;
-  background-color: #0ba325;
   color: #fff;
   font-size: 0.9rem;
   box-shadow: 0 2px 5px black;
@@ -97,13 +110,86 @@ body {
   margin-top: 1rem;
 }
 
+.booked-btn,
+.delete-btn {
+  background-color: rgb(173, 9, 9);
+}
+
+.delete-btn {
+  top: 0.5rem;
+  bottom: auto;
+}
+
+.workout-btn {
+  background-color: #0ba325;
+}
+
 .workout-nav {
   position: fixed;
   bottom: 0;
   width: 100vw;
+  z-index: 10;
 }
 
 .nav-btn {
   width: 50%;
   height: 3.5rem;
+  border: none;
+}
+
+.error-msg {
+  color: red;
+  padding: 1em;
+  text-shadow: 0 2px 5px black;
+}
+
+.active {
+  background-color: #0ba325;
+  color: #fff;
+}
+
+.booked-status {
+  text-align: center;
+}
+
+.booked-title,
+.workout-title {
+  text-align: center;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+
+header {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: #545f719d;
+  box-shadow: rgb(29, 43, 58) 0px 20px 30px -10px;
+  margin-bottom: 1rem;
+}
+
+.admin-link {
+  color: #0ba325;
+  margin-left: 2rem;
+}
+.admin-link:hover {
+  color: #fff;
+}
+
+.admin-wrapper {
+  background: url("./assets/adminBackground.jpg") no-repeat center center/ cover;
+  min-height: 100vh;
+  color: #fff;
+  background-attachment: scroll;
+  position: relative;
+  padding-bottom: 4rem;
+}
+
+.admin-title {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.workouts-toggle {
+  text-decoration: underline;
 }

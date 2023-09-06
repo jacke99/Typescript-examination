@@ -10,9 +10,10 @@ const defaultLoginValues: LoginInterface = {
 
 type UserProps = {
   setCurrentUser: React.Dispatch<React.SetStateAction<UserInterface>>;
+  errorMsg?: string;
 };
 
-export default function LoginPage({ setCurrentUser }: UserProps) {
+export default function LoginPage({ setCurrentUser, errorMsg }: UserProps) {
   const [inputValue, setInputValues] = useState(defaultLoginValues);
   const navigate = useNavigate();
 
@@ -65,6 +66,7 @@ export default function LoginPage({ setCurrentUser }: UserProps) {
           Log in
         </button>
       </div>
+      <p className="error-msg">{errorMsg}</p>
       <p className="link">
         Don't already have an account? Sign up <Link to="/register">here</Link>.
       </p>
