@@ -83,7 +83,7 @@ label {
 .card {
   display: flex;
   flex-direction: column;
-  background-color: #545f719c;
+  background-color: #545f71af;
   position: relative;
   width: 85%;
   margin: 0 auto;
@@ -95,8 +95,9 @@ label {
 
 .workout-btn,
 .booked-btn,
-.delete-btn {
-  position: absolute;
+.delete-btn,
+.new-workout-add,
+.delete-user-btn {
   bottom: 1rem;
   right: 1rem;
   padding: 0.2rem 0.5rem;
@@ -110,9 +111,21 @@ label {
   margin-top: 1rem;
 }
 
+.workout-btn,
+.booked-btn {
+  position: absolute;
+}
+
 .booked-btn,
-.delete-btn {
+.delete-btn,
+.delete-user-btn {
   background-color: rgb(173, 9, 9);
+}
+
+.delete-user-btn {
+  position: absolute;
+  top: 0.5rem;
+  bottom: auto;
 }
 
 .delete-btn {
@@ -122,6 +135,21 @@ label {
 
 .workout-btn {
   background-color: #0ba325;
+}
+
+.workout-btn:disabled {
+  background-color: #0ba32479;
+}
+
+.new-workout-add {
+  background-color: #0ba325;
+}
+
+.edit-btn {
+  font-size: 2.4rem;
+  background-color: transparent;
+  color: #fff;
+  font-family: "Courier New", Courier, monospace;
 }
 
 .workout-nav {
@@ -177,6 +205,7 @@ header {
 }
 
 .admin-wrapper {
+  position: relative;
   background: url("./assets/adminBackground.jpg") no-repeat center center/ cover;
   min-height: 100vh;
   color: #fff;
@@ -192,4 +221,59 @@ header {
 
 .workouts-toggle {
   text-decoration: underline;
+}
+
+.new-workout-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background-color: #1e3049;
+  z-index: 10;
+  width: 90%;
+  margin: 0 auto;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  border: 1px solid black;
+  position: fixed;
+  top: 20%;
+  left: 0;
+  right: 0;
+  box-shadow: rgb(29, 43, 58) 0px 20px 30px -10px;
+}
+
+.new-workout-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.new-workout-close {
+  color: red;
+  font-size: 1.4rem;
+}
+
+.add-workout-btn {
+  width: 10rem;
+  margin-left: 2rem;
+  margin-bottom: 1rem;
+  background-color: #0ba325;
+  color: #fff;
+  border-radius: 2rem;
+  padding: 0.4rem 0.5rem;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.edit-btn-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.booked-workout {
+  color: red;
+  text-shadow: 0 2px 5px black;
 }

@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { UserInterface, WorkoutInterface } from "../types/userInterface";
 import fetchOptions from "../service/fetchService";
 
-type AdminProps = {
+type AdminUserProps = {
   users: UserInterface[];
   setUsers: React.Dispatch<React.SetStateAction<UserInterface[]>>;
 };
 
-export default function AdminUsers({ users, setUsers }: AdminProps) {
+export default function AdminUsers({ users, setUsers }: AdminUserProps) {
   const [toggle, setToggle] = useState({});
 
   function toggleFunction(id: string) {
@@ -35,7 +35,11 @@ export default function AdminUsers({ users, setUsers }: AdminProps) {
         </>
       );
     });
-    return elements;
+    if (elements.length > 0) {
+      return elements;
+    } else {
+      return <p>User has no booked workouts</p>;
+    }
   }
   const usersElement = users.map((user) => {
     return (
@@ -56,7 +60,7 @@ export default function AdminUsers({ users, setUsers }: AdminProps) {
             toggleUserWorkouts(user.booked_workouts)}
         </div>
 
-        <button onClick={() => deleteUser(user.id)} className="delete-btn">
+        <button onClick={() => deleteUser(user.id)} className="delete-user-btn">
           Delete user
         </button>
       </div>

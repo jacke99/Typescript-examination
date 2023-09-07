@@ -3,7 +3,6 @@ import { UserInterface, WorkoutInterface } from "../types/userInterface";
 import Header from "../components/Header";
 import AdminUsers from "../components/AdminUsers";
 import AdminWorkouts from "../components/AdminWorkouts";
-import fetchOptions from "../service/fetchService";
 
 type AdminProps = {
   currentUser: UserInterface;
@@ -47,12 +46,12 @@ export default function AdminPage({ currentUser }: AdminProps) {
   return (
     <div className="admin-wrapper">
       <Header username={currentUser.name} />
-
+      <button className="admin-home-btn">&#8592; Home page</button>
       <h2 className="admin-title">Admin page</h2>
       {!toggle ? (
         <AdminUsers setUsers={setUsers} users={users} />
       ) : (
-        <AdminWorkouts />
+        <AdminWorkouts workouts={workouts} setWorkouts={setWorkouts} />
       )}
       <nav className="workout-nav">
         <button
