@@ -41,14 +41,14 @@ const workoutArray: WorkoutInterface[] = [
   {
     id: nanoid(),
     title: "Crossfit",
-    trainer: "Gertrude trainersson",
+    trainer: "Gertrude Trainersson",
     time: new Date("2023-09-30T20:30").toTimeString().substring(0, 5),
     date: new Date("2023-09-30T20:30").toISOString().split("T")[0],
     duration: 60,
   },
   {
     id: nanoid(),
-    title: "Gym with Arnold",
+    title: "Bodybuilding",
     trainer: "Arnold Schwarzenegger",
     time: new Date("2023-10-02T18:00").toTimeString().substring(0, 5),
     date: new Date("2023-10-02T18:00").toDateString(),
@@ -58,6 +58,38 @@ const workoutArray: WorkoutInterface[] = [
     id: nanoid(),
     title: "Yoga",
     trainer: "Yves Flexible",
+    time: new Date("2023-10-02T09:00").toTimeString().substring(0, 5),
+    date: new Date("2023-10-02T09:00").toDateString(),
+    duration: 90,
+  },
+  {
+    id: nanoid(),
+    title: "Spinning",
+    trainer: "Greta Spinnersson",
+    time: new Date("2023-10-02T09:00").toTimeString().substring(0, 5),
+    date: new Date("2023-10-02T09:00").toDateString(),
+    duration: 90,
+  },
+  {
+    id: nanoid(),
+    title: "Karate",
+    trainer: "Chuck Norris",
+    time: new Date("2023-10-02T09:00").toTimeString().substring(0, 5),
+    date: new Date("2023-10-02T09:00").toDateString(),
+    duration: 90,
+  },
+  {
+    id: nanoid(),
+    title: "Jogging",
+    trainer: "Usain Bolt",
+    time: new Date("2023-10-02T09:00").toTimeString().substring(0, 5),
+    date: new Date("2023-10-02T09:00").toDateString(),
+    duration: 90,
+  },
+  {
+    id: nanoid(),
+    title: "Zumba",
+    trainer: "Zoe Zumbason",
     time: new Date("2023-10-02T09:00").toTimeString().substring(0, 5),
     date: new Date("2023-10-02T09:00").toDateString(),
     duration: 90,
@@ -92,18 +124,25 @@ new Server({
       return { workouts: workoutArray };
     });
 
-    this.post("/users", (schema, request) => {
+    this.post("/register", (schema, request) => {
       let body = JSON.parse(request.requestBody);
-      body.id = nanoid();
-      workoutArray.push(body);
-      return { users: body };
+      const user = userArray.find((user) => user.name === body.name);
+      if (user) {
+        return new Response(400);
+      } else {
+        body.id = nanoid();
+        body.role = "ADMIN";
+        body.booked_workouts = [];
+        userArray.push(body);
+        return { users: body };
+      }
     });
 
     this.put("/login", (schema, request) => {
       let body = JSON.parse(request.requestBody);
 
       const user = userArray.find(
-        (user) => user.name === body.username && user.password === body.password
+        (user) => user.name === body.name && user.password === body.password
       );
       if (user) {
         return { user: user };
@@ -134,9 +173,7 @@ new Server({
       const workoutIndex = userArray[userIndex].booked_workouts.findIndex(
         (workout) => workout.id === body.workoutId
       );
-
       userArray[userIndex].booked_workouts.splice(workoutIndex, 1);
-      console.log(userArray[userIndex].booked_workouts);
 
       return { user: userArray[userIndex] };
     });
@@ -154,8 +191,6 @@ new Server({
       });
       return { workouts: newArray };
     });
-
-    // this.put("/workouts", (schema, request) => {});
   },
 });
 

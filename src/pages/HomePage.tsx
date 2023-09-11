@@ -13,7 +13,7 @@ type currentUserProps = {
 export default function HomePage({
   currentUser,
   setCurrentUser,
-}: currentUserProps) {
+}: currentUserProps): JSX.Element {
   const defaultWorkout: WorkoutInterface[] = [
     {
       id: "",
@@ -35,7 +35,7 @@ export default function HomePage({
 
   return (
     <div className={!toggle ? "home-wrapper" : "home-wrapper booked"}>
-      <Header username={currentUser.name} />
+      <Header username={currentUser.name} setCurrentUser={setCurrentUser} />
       {currentUser.role === "ADMIN" && (
         <Link className="admin-link" to="/admin">
           Admin page &#8594;

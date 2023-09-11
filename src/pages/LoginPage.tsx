@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import fetchOptions from "../service/fetchService";
 import { Link, useNavigate } from "react-router-dom";
 import { LoginInterface, UserInterface } from "../types/userInterface";
+import InputElements from "../components/InputElements";
 
 const defaultLoginValues: LoginInterface = {
-  username: "",
+  name: "",
   password: "",
 };
 
@@ -13,22 +14,15 @@ type UserProps = {
   errorMsg?: string;
 };
 
-export default function LoginPage({ setCurrentUser, errorMsg }: UserProps) {
-  const [inputValue, setInputValues] = useState(defaultLoginValues);
+export default function LoginPage({
+  setCurrentUser,
+  errorMsg,
+}: UserProps): JSX.Element {
+  const [inputValues, setInputValues] = useState(defaultLoginValues);
   const navigate = useNavigate();
 
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value } = event.target;
-    setInputValues((previnputValues) => {
-      return {
-        ...previnputValues,
-        [name]: value,
-      };
-    });
-  }
-
   async function handleLoginClick() {
-    const body = inputValue;
+    const body = inputValues;
 
     const res = await fetch(
       "/api/login",
@@ -42,30 +36,25 @@ export default function LoginPage({ setCurrentUser, errorMsg }: UserProps) {
       alert("Wrong username or password");
     }
   }
+
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = event.target;
+    setInputValues((previnputValues) => {
+      return {
+        ...previnputValues,
+        [name]: value,
+      };
+    });
+  }
+
   return (
     <div className="login-wrapper">
       <h1 className="login-title">Strong n' Epic</h1>
-      <div className="login-container">
-        <label htmlFor="username-field">Username</label>
-        <input
-          name="username"
-          value={inputValue.username}
-          type="text"
-          className="username-field"
-          onChange={handleChange}
-        />
-        <label htmlFor="password-field">Password</label>
-        <input
-          name="password"
-          value={inputValue.password}
-          type="password"
-          className="password-field"
-          onChange={handleChange}
-        />
-        <button className="login-btn" onClick={handleLoginClick} type="submit">
-          Log in
-        </button>
-      </div>
+      <InputElements
+        inputValue={inputValues}
+        handleChange={handleChange}
+        handleClick={handleLoginClick}
+      />
       <p className="error-msg">{errorMsg}</p>
       <p className="link">
         Don't already have an account? Sign up <Link to="/register">here</Link>.

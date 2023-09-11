@@ -7,23 +7,28 @@ type AdminUserProps = {
   setUsers: React.Dispatch<React.SetStateAction<UserInterface[]>>;
 };
 
-export default function AdminUsers({ users, setUsers }: AdminUserProps) {
+export default function AdminUsers({
+  users,
+  setUsers,
+}: AdminUserProps): JSX.Element {
   const [toggle, setToggle] = useState({});
 
-  function toggleFunction(id: string) {
+  function toggleFunction(id: string): void {
     setToggle({
       ...toggle,
       [id]: !toggle[id as keyof typeof toggle],
     });
   }
-  async function deleteUser(userId: string) {
+  async function deleteUser(userId: string): Promise<void> {
     const body = { userId: userId };
     const res = await fetch("/api/users", fetchOptions("DELETE", body));
     const data = await res.json();
     setUsers(data.users);
   }
 
-  function toggleUserWorkouts(array: WorkoutInterface[]) {
+  function toggleUserWorkouts(
+    array: WorkoutInterface[]
+  ): JSX.Element | JSX.Element[] {
     const elements = array?.map((workout) => {
       return (
         <>
@@ -41,7 +46,7 @@ export default function AdminUsers({ users, setUsers }: AdminUserProps) {
       return <p>User has no booked workouts</p>;
     }
   }
-  const usersElement = users.map((user) => {
+  const usersElement: JSX.Element[] = users.map((user) => {
     return (
       <div className="card" key={user.id}>
         <h2>{user.name}</h2>
@@ -66,5 +71,5 @@ export default function AdminUsers({ users, setUsers }: AdminUserProps) {
       </div>
     );
   });
-  return <>{usersElement}</>;
+  return <div className="card-container">{usersElement}</div>;
 }

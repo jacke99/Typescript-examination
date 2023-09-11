@@ -11,14 +11,17 @@ export default function WorkoutElements({
   workouts,
   currentUser,
   setCurrentUser,
-}: WorkoutProps) {
-  async function bookWorkout(workoutId: string) {
+}: WorkoutProps): JSX.Element {
+  async function bookWorkout(workoutId: string): Promise<void> {
     const BODY = {
       workoutId: workoutId,
       userId: currentUser.id,
     };
 
-    const res = await fetch("/api/users/booking", fetchOptions("POST", BODY));
+    const res: Response = await fetch(
+      "/api/users/booking",
+      fetchOptions("POST", BODY)
+    );
     const data = await res.json();
     setCurrentUser({
       ...currentUser,
@@ -27,18 +30,17 @@ export default function WorkoutElements({
     alert("Workout booked successfully!");
   }
 
-  function checkIfBooked(obj: WorkoutInterface) {
+  function checkIfBooked(obj: WorkoutInterface): boolean {
     const isBooked = currentUser.booked_workouts.some(
       (workout) =>
         // Compare the properties you want to check for equality here
         workout.id === obj.id && workout.title === obj.title
     );
-    console.log(isBooked);
 
     return isBooked;
   }
 
-  const workoutElements = workouts.map((workout) => {
+  const workoutElements: JSX.Element[] = workouts.map((workout) => {
     if (currentUser.booked_workouts.some((value) => value.id === workout.id)) {
       console.log("true");
     } else {
@@ -47,12 +49,15 @@ export default function WorkoutElements({
 
     return (
       <div className="card" key={workout.id}>
-        {checkIfBooked(workout) ? (
-          <p className="booked-workout">Already booked</p>
-        ) : (
-          ""
-        )}
-        <h2>{workout.title}</h2>
+        <div className="card-header">
+          <h2>{workout.title}</h2>
+          {checkIfBooked(workout) ? (
+            <p className="booked-workout">Already booked</p>
+          ) : (
+            ""
+          )}
+        </div>
+
         <p>Trainer: {workout.trainer}</p>
         <p>Date: {workout.date}</p>
         <p>Time: {workout.time}</p>
@@ -67,10 +72,5 @@ export default function WorkoutElements({
       </div>
     );
   });
-  return (
-    <>
-      <h3 className="workout-title">Book workout</h3>
-      {workoutElements}
-    </>
-  );
+  return <div className="card-container">{workoutElements}</div>;
 }

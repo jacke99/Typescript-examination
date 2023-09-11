@@ -19,11 +19,11 @@ const defaultWorkout: WorkoutInterface = {
 export default function AdminWorkouts({
   workouts,
   setWorkouts,
-}: AdminWorkoutProps) {
+}: AdminWorkoutProps): JSX.Element {
   const [toggle, setToggle] = useState(false);
   const [inputValues, setInputValues] = useState(defaultWorkout);
 
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>): void {
     const { name, value } = event.target;
     setInputValues((previnputValues) => {
       return {
@@ -33,7 +33,7 @@ export default function AdminWorkouts({
     });
   }
 
-  async function deleteWorkout(workoutId: string) {
+  async function deleteWorkout(workoutId: string): Promise<void> {
     const body = { workoutId: workoutId };
     const res = await fetch("/api/workouts", fetchOptions("DELETE", body));
     const data = await res.json();
@@ -42,7 +42,7 @@ export default function AdminWorkouts({
     setToggle(false);
   }
 
-  async function addWorkout(event: React.FormEvent<HTMLFormElement>) {
+  async function addWorkout(event: React.FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
     const body = inputValues;
     const res = await fetch("/api/workouts", fetchOptions("POST", body));
@@ -52,12 +52,12 @@ export default function AdminWorkouts({
     alert("Workout added successfully!");
   }
 
-  function editWorkout(workout: WorkoutInterface) {
+  function editWorkout(workout: WorkoutInterface): void {
     setInputValues(workout);
     setToggle(true);
   }
 
-  function closeEditWorkout() {
+  function closeEditWorkout(): void {
     setToggle(false);
     setInputValues(defaultWorkout);
   }
@@ -135,7 +135,7 @@ export default function AdminWorkouts({
     </form>
   );
 
-  const workoutElements = workouts.map((workout) => {
+  const workoutElements: JSX.Element[] = workouts.map((workout) => {
     return (
       <div className="card" key={workout.id}>
         <div className="card-header">
@@ -159,7 +159,7 @@ export default function AdminWorkouts({
         Add new workout
       </button>
       {toggle && addWorkoutElement}
-      {workoutElements}
+      <div className="card-container">{workoutElements}</div>
     </>
   );
 }

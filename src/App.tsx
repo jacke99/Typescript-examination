@@ -5,8 +5,9 @@ import LoginPage from "./pages/LoginPage";
 import { UserInterface } from "./types/userInterface";
 import HomePage from "./pages/HomePage";
 import AdminPage from "./pages/AdminPage";
+import RegisterPage from "./pages/RegisterPage";
 
-const defaultUser: UserInterface = {
+export const defaultUser: UserInterface = {
   id: "",
   name: "",
   password: "",
@@ -43,7 +44,10 @@ function App() {
           path="/admin"
           element={
             currentUser.role === "ADMIN" ? (
-              <AdminPage currentUser={currentUser} />
+              <AdminPage
+                currentUser={currentUser}
+                setCurrentUser={setCurrentUser}
+              />
             ) : (
               <HomePage
                 currentUser={currentUser}
@@ -52,6 +56,7 @@ function App() {
             )
           }
         />
+        <Route path="/register" element={<RegisterPage />} />
       </Routes>
     </Router>
   );

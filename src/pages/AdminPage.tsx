@@ -3,9 +3,12 @@ import { UserInterface, WorkoutInterface } from "../types/userInterface";
 import Header from "../components/Header";
 import AdminUsers from "../components/AdminUsers";
 import AdminWorkouts from "../components/AdminWorkouts";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLeftLong } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 type AdminProps = {
   currentUser: UserInterface;
+  setCurrentUser: React.Dispatch<React.SetStateAction<UserInterface>>;
 };
 
 const defaultWorkout: WorkoutInterface[] = [
@@ -29,7 +32,10 @@ const defaultUser: UserInterface[] = [
   },
 ];
 
-export default function AdminPage({ currentUser }: AdminProps) {
+export default function AdminPage({
+  currentUser,
+  setCurrentUser,
+}: AdminProps): JSX.Element {
   const [users, setUsers] = useState(defaultUser);
   const [workouts, setWorkouts] = useState(defaultWorkout);
   const [toggle, setToggle] = useState(false);
@@ -45,13 +51,16 @@ export default function AdminPage({ currentUser }: AdminProps) {
   }, []);
   return (
     <div className="admin-wrapper">
-      <Header username={currentUser.name} />
-      <button className="admin-home-btn">&#8592; Home page</button>
-      <h2 className="admin-title">Admin page</h2>
-      {!toggle ? (
-        <AdminUsers setUsers={setUsers} users={users} />
+      <Header username={currentUser.name} setCurrentUser={setCurrentUser} />
+      <Link to={"/home"} className="admin-home-btn">
+        {" "}
+        <FontAwesomeIcon icon={faLeftLong} />
+        Home page
+      </Link>
+      {toggle ? (
+        <h2 className="admin-title">Admin page Workouts</h2>
       ) : (
-        <AdminWorkouts workouts={workouts} setWorkouts={setWorkouts} />
+        <h2 className="admin-title">Admin page Users</h2>
       )}
       <nav className="workout-nav">
         <button
@@ -67,6 +76,11 @@ export default function AdminPage({ currentUser }: AdminProps) {
           Workouts
         </button>
       </nav>
+      {!toggle ? (
+        <AdminUsers setUsers={setUsers} users={users} />
+      ) : (
+        <AdminWorkouts workouts={workouts} setWorkouts={setWorkouts} />
+      )}
     </div>
   );
 }
