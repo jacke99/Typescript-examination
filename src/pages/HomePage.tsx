@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { UserInterface, WorkoutInterface } from "../types/userInterface";
-import WorkoutElements from "../components/WorkoutElements";
-import BookedElements from "../components/BookedElements";
+import WorkoutElements from "../components/WorkoutCards";
+import BookedElements from "../components/BookedWorkoutCards";
 import Header from "../components/Header";
 import { Link } from "react-router-dom";
 

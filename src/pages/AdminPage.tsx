@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { UserInterface, WorkoutInterface } from "../types/userInterface";
 import Header from "../components/Header";
-import AdminUsers from "../components/AdminUsers";
-import AdminWorkouts from "../components/AdminWorkouts";
+import AdminUsers from "../components/AdminUsersCards";
+import AdminWorkouts from "../components/AdminWorkoutCards";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLeftLong } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";

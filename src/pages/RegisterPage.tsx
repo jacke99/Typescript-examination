@@ -1,13 +1,8 @@
 import React, { useState } from "react";
 import InputElements from "../components/InputElements";
-import { LoginInterface, UserInterface } from "../types/userInterface";
+import { LoginInterface } from "../types/userInterface";
 import { Link, useNavigate } from "react-router-dom";
 import fetchOptions from "../service/fetchService";
-
-type UserProps = {
-  setCurrentUser: React.Dispatch<React.SetStateAction<UserInterface>>;
-  errorMsg?: string;
-};
 
 const defaultRegisterValues: LoginInterface = {
   name: "",
