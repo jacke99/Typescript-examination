@@ -18,7 +18,8 @@ export default function LoginPage({
   setCurrentUser,
   errorMsg,
 }: UserProps): JSX.Element {
-  const [inputValues, setInputValues] = useState(defaultLoginValues);
+  const [inputValues, setInputValues] =
+    useState<LoginInterface>(defaultLoginValues);
   const navigate = useNavigate();
 
   async function handleLoginClick() {

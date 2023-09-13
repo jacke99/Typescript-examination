@@ -1,5 +1,6 @@
 import React from "react";
 import { UserInterface } from "../types/userInterface";
+import fetchOptions from "../service/fetchService";
 
 type BookedProps = {
   currentUser: UserInterface;
@@ -11,18 +12,15 @@ export default function BookedElements({
   setCurrentUser,
 }: BookedProps): JSX.Element {
   async function cancelWorkout(workoutId: string): Promise<void> {
-    const BODY = {
+    const body = {
       workoutId: workoutId,
       userId: currentUser.id,
     };
 
-    const res: Response = await fetch("/api/users/booking", {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(BODY),
-    });
+    const res: Response = await fetch(
+      "/api/users/booking",
+      fetchOptions("DELETE", body)
+    );
     const data = await res.json();
     setCurrentUser({
       ...currentUser,

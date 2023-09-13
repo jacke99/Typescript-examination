@@ -10,7 +10,9 @@ const defaultRegisterValues: LoginInterface = {
 };
 export default function RegisterPage(): JSX.Element {
   const navigate = useNavigate();
-  const [inputValues, setInputValues] = useState(defaultRegisterValues);
+  const [inputValues, setInputValues] = useState<LoginInterface>(
+    defaultRegisterValues
+  );
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>): void {
     const { name, value } = event.target;

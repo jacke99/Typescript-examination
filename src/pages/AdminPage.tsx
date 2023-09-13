@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { UserInterface, WorkoutInterface } from "../types/userInterface";
 import Header from "../components/Header";
-import AdminUsers from "../components/AdminUsersCards";
-import AdminWorkouts from "../components/AdminWorkoutCards";
+import AdminUsersCards from "../components/AdminUsersCards";
+import AdminWorkoutsCards from "../components/AdminWorkoutCards";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLeftLong } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
@@ -36,9 +36,9 @@ export default function AdminPage({
   currentUser,
   setCurrentUser,
 }: AdminProps): JSX.Element {
-  const [users, setUsers] = useState(defaultUser);
-  const [workouts, setWorkouts] = useState(defaultWorkout);
-  const [toggle, setToggle] = useState(false);
+  const [users, setUsers] = useState<UserInterface[]>(defaultUser);
+  const [workouts, setWorkouts] = useState<WorkoutInterface[]>(defaultWorkout);
+  const [toggle, setToggle] = useState<boolean>(false);
 
   useEffect(() => {
     fetch("/api/users")
@@ -77,9 +77,9 @@ export default function AdminPage({
         </button>
       </nav>
       {!toggle ? (
-        <AdminUsers setUsers={setUsers} users={users} />
+        <AdminUsersCards setUsers={setUsers} users={users} />
       ) : (
-        <AdminWorkouts workouts={workouts} setWorkouts={setWorkouts} />
+        <AdminWorkoutsCards workouts={workouts} setWorkouts={setWorkouts} />
       )}
     </div>
   );

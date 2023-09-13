@@ -1,32 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { UserInterface, WorkoutInterface } from "../types/userInterface";
-import WorkoutElements from "../components/WorkoutCards";
-import BookedElements from "../components/BookedWorkoutCards";
+import WorkoutCards from "../components/WorkoutCards";
+import BookedWorkoutCards from "../components/BookedWorkoutCards";
 import Header from "../components/Header";
 import { Link } from "react-router-dom";
 
-type currentUserProps = {
+type homePageProps = {
   currentUser: UserInterface;
   setCurrentUser: React.Dispatch<React.SetStateAction<UserInterface>>;
 };
 
+const defaultWorkout: WorkoutInterface[] = [
+  {
+    id: "",
+    title: "",
+    trainer: "",
+    time: "",
+    date: "",
+    duration: 0,
+  },
+];
+
 export default function HomePage({
   currentUser,
   setCurrentUser,
-}: currentUserProps): JSX.Element {
-  const defaultWorkout: WorkoutInterface[] = [
-    {
-      id: "",
-      title: "",
-      trainer: "",
-      time: "",
-      date: "",
-      duration: 0,
-    },
-  ];
-
-  const [workouts, setWorkouts] = useState(defaultWorkout);
-  const [toggle, setToggle] = useState(false);
+}: homePageProps): JSX.Element {
+  const [workouts, setWorkouts] = useState<WorkoutInterface[]>(defaultWorkout);
+  const [toggle, setToggle] = useState<boolean>(false);
   useEffect(() => {
     fetch("/api/workouts")
       .then((res) => res.json())
@@ -56,12 +56,12 @@ export default function HomePage({
         </button>
       </nav>
       {toggle ? (
-        <BookedElements
+        <BookedWorkoutCards
           currentUser={currentUser}
           setCurrentUser={setCurrentUser}
         />
       ) : (
-        <WorkoutElements
+        <WorkoutCards
           workouts={workouts}
           currentUser={currentUser}
           setCurrentUser={setCurrentUser}
