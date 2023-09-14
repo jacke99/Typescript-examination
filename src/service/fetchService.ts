@@ -1,4 +1,6 @@
-export default function fetchOptions<T>(method: string, body: T) {
+export type fethMethod = "POST" | "PUT" | "DELETE";
+
+export default function fetchOptions<T>(method: fethMethod, body: T) {
   const fetchOptions = {
     method,
     body: JSON.stringify(body),
